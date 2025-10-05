@@ -47,7 +47,7 @@ sudo apt install -y gcc-arm-linux-gnueabihf \
 
 ```bash
 cd ~
-git clone https://github.com/VOTRE_USER/rpi4-arm32-student.git
+git clone https://github.com/fr13290/rpi4-arm32-student.git
 cd rpi4-arm32-student
 ```
 
