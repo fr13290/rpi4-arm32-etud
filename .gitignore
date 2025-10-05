@@ -1,6 +1,6 @@
 *.o
-projects/**/*
 !projects/**/*.s
 !projects/**/Makefile
-examples/**/*
 !examples/**/*.s
+projects/**/*
+examples/**/*

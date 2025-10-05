@@ -19,13 +19,23 @@ rpi-imager
 - Hostname : `rpi4-etudiant`
 - User/Pass : `pi` / votre_mdp
 - SSH : Activer
-- IP fixe : `192.168.1.XXX`
+- IP fixe : 
+
+	**Salle TP :**
+		- IP : `10.101.40.XXX` (remplacer XXX par votre numéro 1-200)
+		- Masque : `255.255.0.0`
+		- Passerelle : `10.101.255.254`
+
+	**Salle RT1 :**
+		- IP : `10.96.26.1XX` (remplacer XX par votre numéro 00-99)
+		- Masque : `255.255.255.0`
+		- Passerelle : `10.96.26.254`
 
 ## 2. Premier boot RPi
 
 ```bash
 # Depuis PC - Se connecter
-ssh pi@192.168.1.XXX
+ssh pi@10.XXX.XXX.XXX
 
 # Mise à jour
 sudo apt update && sudo apt upgrade -y
@@ -35,7 +45,7 @@ sudo reboot
 ## 3. Installer outils (sur RPi)
 
 ```bash
-ssh pi@192.168.1.XXX
+ssh pi@10.XXX.XXX.XXX
 
 sudo apt install -y gcc-arm-linux-gnueabihf \
                     gdb-multiarch \
@@ -65,10 +75,17 @@ code --install-extension ms-vscode-remote.remote-ssh
 code --install-extension dan-c-underwood.arm
 code --install-extension webfreak.debug
 
+### Importer le profil Arm_Dev (optionnel)
+Pour avoir exactement la même configuration :
+
+1. VSCode → `Ctrl+Shift+P`
+2. "Profiles: Import Profile"
+3. Sélectionner `.vscode/profiles/Arm_Dev.code-profile`
+
 # Config SSH
 cat >> ~/.ssh/config << 'SSHEOF'
 Host rpi4
-    HostName 192.168.1.XXX
+    HostName 10.XXX.XXX.XXX
     User pi
 SSHEOF
 ```
