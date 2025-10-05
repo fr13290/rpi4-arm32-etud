@@ -1,0 +1,14 @@
+ARCH:=arm32
+PREFIX=arm-linux-gnueabihf-
+AS=$(PREFIX)as
+LD=$(PREFIX)ld
+CC=$(PREFIX)gcc
+ASFLAGS=-march=armv7-a+fp -mfloat-abi=hard -g
+CFLAGS=-march=armv7-a+fp -mfloat-abi=hard -Wall -O2 -g
+LDFLAGS=-dynamic-linker /lib/ld-linux-armhf.so.3
+PROJECT_ROOT:=$(shell pwd | grep -oP '.*Dev_RPI4_Etu')
+LIB_GPIO=$(PROJECT_ROOT)/lib/gpio
+%.o:%.s
+	@$(AS) $(ASFLAGS) $< -o $@
+%.o:%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
