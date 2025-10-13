@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dan-c-underwood.arm",
+    "ms-vscode-remote.remote-ssh",
+    "ms-vscode-remote.remote-ssh-edit",
+    "ms-vscode.makefile-tools",
+    "ms-vscode.remote-explorer",
+    "webfreak.debug",
+    "codestackr.codestackr-theme"
+  ]
+}
