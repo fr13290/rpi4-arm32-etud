@@ -5,12 +5,18 @@ Ce document décrit les fonctionnalités de développement disponibles dans l'en
 ## Raccourcis clavier
 
 ### Compilation
+
+**Linux/Windows :**
 - `Ctrl+Shift+B` : Compiler le projet actuel
-- `Ctrl+Shift+P` puis "Run Task" → "Clean" : Nettoyer les fichiers générés
-- `Ctrl+Shift+P` puis "Run Task" → "Build & Run" : Compiler et exécuter
-- `Ctrl+Shift+P` puis "Run Task" → "Clean & Build" : Nettoyer puis recompiler
+- `Ctrl+Shift+P` puis "Run Task" : Accéder aux tâches
+
+**macOS :**
+- `Cmd+Shift+B` : Compiler le projet actuel
+- `Cmd+Shift+P` puis "Run Task" : Accéder aux tâches
 
 ### Débogage
+
+**Linux/Windows :**
 - `F5` : Démarrer le débogage
 - `F10` : Exécuter l'instruction suivante
 - `F11` : Entrer dans une fonction
@@ -18,17 +24,32 @@ Ce document décrit les fonctionnalités de développement disponibles dans l'en
 - `F9` : Placer ou retirer un point d'arrêt
 - `Shift+F5` : Arrêter le débogage
 
+**macOS :**
+- `Fn+F5` : Démarrer le débogage
+- `Fn+F10` : Exécuter l'instruction suivante
+- `Fn+F11` : Entrer dans une fonction
+- `Fn+Shift+F11` : Sortir d'une fonction
+- `Fn+F9` : Placer ou retirer un point d'arrêt
+- `Fn+Shift+F5` : Arrêter le débogage
+
 ### Navigation
+
+**Linux/Windows :**
 - `Ctrl+P` : Recherche rapide de fichiers
 - `Ctrl+Shift+F` : Recherche dans tous les fichiers
 - `Ctrl+\`` : Ouvrir/Fermer le terminal intégré
 
+**macOS :**
+- `Cmd+P` : Recherche rapide de fichiers
+- `Cmd+Shift+F` : Recherche dans tous les fichiers
+- `Cmd+\`` : Ouvrir/Fermer le terminal intégré
+
 ## Tâches de build
 
-Les tâches sont accessibles via le menu **Terminal** → **Run Task** ou `Ctrl+Shift+P` puis "Tasks: Run Task".
+Les tâches sont accessibles via le menu **Terminal** → **Run Task**.
 
 ### Build
-Compile le projet dans le répertoire courant. Cette tâche est définie comme tâche par défaut et s'exécute avec `Ctrl+Shift+B`.
+Compile le projet dans le répertoire courant. Cette tâche est définie comme tâche par défaut et s'exécute avec le raccourci de compilation.
 
 ### Clean
 Supprime tous les fichiers générés (fichiers objets .o et exécutables).
@@ -41,7 +62,7 @@ Nettoie complètement le projet puis le recompile. Cette tâche est utile après
 
 ## Configurations de débogage
 
-Deux configurations sont disponibles via le menu **Run** → **Start Debugging** ou `F5`.
+Deux configurations sont disponibles via le menu **Run** → **Start Debugging**.
 
 ### Debug ARM32
 Configuration par défaut qui :
@@ -75,14 +96,14 @@ rpi4-arm32-etud/
 
 ### Compiler un projet
 1. Ouvrir un fichier source (.s ou .c) dans le projet à compiler
-2. Appuyer sur `Ctrl+Shift+B` ou utiliser le menu Terminal → Run Build Task
+2. Utiliser le raccourci de compilation ou le menu Terminal → Run Build Task
 3. Le fichier exécutable est généré dans le même répertoire
 
 ### Déboguer un programme
 1. Ouvrir le fichier source principal (celui contenant le point d'entrée _start)
-2. Placer des points d'arrêt si nécessaire avec `F9`
-3. Appuyer sur `F5` pour démarrer le débogage
-4. Utiliser `F10` pour avancer instruction par instruction
+2. Placer des points d'arrêt si nécessaire
+3. Utiliser le raccourci de débogage pour démarrer
+4. Utiliser les raccourcis de navigation pour avancer instruction par instruction
 
 ### Visualisation pendant le débogage
 Le panneau **Debug Console** en bas de l'écran affiche :
@@ -91,7 +112,7 @@ Le panneau **Debug Console** en bas de l'écran affiche :
 - Les commandes GDB disponibles
 
 ### Utilisation du terminal intégré
-Le terminal intégré (``Ctrl+` ``) permet d'exécuter directement les commandes make :
+Le terminal intégré permet d'exécuter directement les commandes make :
 ```bash
 make all    # Compiler
 make run    # Compiler et exécuter
@@ -112,21 +133,29 @@ Les fichiers .s sont automatiquement reconnus comme du code ARM Assembly.
 ## Dépannage
 
 ### Commande make introuvable
-Installer les outils de build :
+Installer les outils de build sur le Raspberry Pi :
 ```bash
 sudo apt install make
 ```
 
 ### Compilateur ARM introuvable
-Installer la chaîne de compilation croisée :
+Installer la chaîne de compilation croisée sur le Raspberry Pi :
 ```bash
 sudo apt install gcc-arm-linux-gnueabihf
 ```
 
 ### Débogueur non fonctionnel
-Installer le débogueur multi-architecture :
+Installer le débogueur multi-architecture sur le Raspberry Pi :
 ```bash
 sudo apt install gdb-multiarch
+```
+
+### Erreur "cannot find -lgpiod"
+Installer les bibliothèques GPIO 32 bits sur le Raspberry Pi :
+```bash
+sudo dpkg --add-architecture armhf
+sudo apt update
+sudo apt install libgpiod-dev:armhf libgpiod2:armhf
 ```
 
 ### Fichiers .o visibles dans l'explorateur
