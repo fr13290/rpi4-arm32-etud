@@ -3,7 +3,7 @@
 ## Matériel
 - Raspberry Pi 4 (2GB min)
 - MicroSD 16GB
-- PC Debian 13
+- PC Debian 13 ou macOS
 
 ## 1. Graver SD card
 
@@ -12,6 +12,10 @@
 wget https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb
 sudo dpkg -i imager_latest_amd64.deb
 rpi-imager
+
+# macOS - Installer Imager
+brew install --cask raspberry-pi-imager
+# ou télécharger depuis https://www.raspberrypi.com/software/
 ```
 
 **Config Imager :**
@@ -47,10 +51,15 @@ sudo reboot
 ```bash
 ssh pi@10.XXX.XXX.XXX
 
+# Outils de compilation
 sudo apt install -y gcc-arm-linux-gnueabihf \
                     gdb-multiarch \
-                    gpiod libgpiod-dev \
                     git
+
+# Bibliothèques GPIO (32 bits)
+sudo dpkg --add-architecture armhf
+sudo apt update
+sudo apt install -y libgpiod-dev:armhf libgpiod2:armhf gpiod
 ```
 
 ## 4. Télécharger workspace
@@ -61,8 +70,9 @@ git clone https://github.com/fr13290/rpi4-arm32-etud.git
 cd rpi4-arm32-etud
 ```
 
-## 5. VSCode sur PC
+## 5. VSCode sur PC/Mac
 
+### Debian/Ubuntu
 ```bash
 # Installer VSCode
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -74,15 +84,25 @@ sudo apt update && sudo apt install code
 code --install-extension ms-vscode-remote.remote-ssh
 code --install-extension dan-c-underwood.arm
 code --install-extension webfreak.debug
+```
 
-### Importer le profil Arm_Dev (optionnel)
-Pour avoir exactement la même configuration :
+### macOS
+```bash
+# Installer VSCode
+brew install --cask visual-studio-code
+# ou télécharger depuis https://code.visualstudio.com/
 
-1. VSCode → `Ctrl+Shift+P`
-2. "Profiles: Import Profile"
-3. Sélectionner `.vscode/profiles/Arm_Dev.code-profile`
+# Extensions (après ouverture de VSCode)
+# Ctrl+Shift+X puis chercher et installer :
+# - Remote - SSH
+# - ARM Assembly
+# - Native Debug
+```
 
-# Config SSH
+### Configuration SSH
+
+**Linux/macOS :**
+```bash
 cat >> ~/.ssh/config << 'SSHEOF'
 Host rpi4
     HostName 10.XXX.XXX.XXX
@@ -92,7 +112,7 @@ SSHEOF
 
 ## 6. Connexion Remote
 
-1. VSCode → `Ctrl+Shift+P` → "Remote-SSH: Connect"
+1. VSCode → `Ctrl+Shift+P` (ou `Cmd+Shift+P` sur Mac) → "Remote-SSH: Connect"
 2. Sélectionner `rpi4`
 3. `File` → `Open Folder` → `/home/pi/rpi4-arm32-etud`
 
@@ -124,11 +144,19 @@ make run
 ```
 
 ## Raccourcis
+
+### Linux/Windows
 - `Ctrl+Shift+B` : Build
 - `F5` : Debug
 - `F10` : Step
 
+### macOS
+- `Cmd+Shift+B` : Build
+- `Fn+F5` : Debug
+- `Fn+F10` : Step
+
 ## Docs
+- `docs/VSCODE_GUIDE.md`
 - `docs/QUICKSTART.md`
 - `docs/ARM32_REFERENCE.md`
 - `docs/GPIO_API.md`
