@@ -1,1 +1,59 @@
-{"version":"2.0.0","tasks":[{"label":"Build","type":"shell","command":"make all","options":{"cwd":"${fileDirname}"},"group":{"kind":"build","isDefault":true},"problemMatcher":["$gcc"]}]}
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "make all",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$gcc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Clean",
+      "type": "shell",
+      "command": "make clean",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    },
+    {
+      "label": "Build & Run",
+      "type": "shell",
+      "command": "make run",
+      "options": {
+        "cwd": "${fileDirname}"
+      },
+      "problemMatcher": ["$gcc"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      }
+    },
+    {
+      "label": "Clean & Build",
+      "dependsOrder": "sequence",
+      "dependsOn": ["Clean", "Build"],
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      }
+    }
+  ]
+}

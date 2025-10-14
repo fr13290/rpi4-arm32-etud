@@ -1,1 +1,36 @@
-{"version":"0.2.0","configurations":[{"name":"Debug ARM32","type":"gdb","request":"launch","target":"${fileDirname}/${fileBasenameNoExtension}","cwd":"${fileDirname}","gdbpath":"gdb-multiarch","preLaunchTask":"Build","autorun":["set output-radix 16"],"stopAtEntry":true}]}
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug ARM32",
+      "type": "gdb",
+      "request": "launch",
+      "target": "${fileDirname}/${fileBasenameNoExtension}",
+      "cwd": "${fileDirname}",
+      "gdbpath": "gdb-multiarch",
+      "preLaunchTask": "Build",
+      "autorun": [
+        "set output-radix 16"
+      ],
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb-multiarch"
+    },
+    {
+      "name": "Debug ARM32 (no build)",
+      "type": "gdb",
+      "request": "launch",
+      "target": "${fileDirname}/${fileBasenameNoExtension}",
+      "cwd": "${fileDirname}",
+      "gdbpath": "gdb-multiarch",
+      "autorun": [
+        "set output-radix 16"
+      ],
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb-multiarch"
+    }
+  ]
+}

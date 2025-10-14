@@ -1,1 +1,15 @@
-../../tools/Makefile.project
+include $(shell pwd | grep -oP '.*rpi4-arm32-etud')/tools/Makefile.master
+MAIN_SOURCE:=$(shell grep -l '_start' *.s 2>/dev/null | head -1)
+ASM_SOURCES=$(wildcard *.s)
+C_SOURCES=$(wildcard *.c)
+ALL_OBJECTS=$(ASM_SOURCES:.s=.o) $(C_SOURCES:.c=.o)
+TARGET=$(basename $(MAIN_SOURCE))
+all:$(TARGET)
+$(TARGET):$(ALL_OBJECTS)
+	@$(LD) -o $@ $^ $(LDFLAGS) -lc -lgpiod -e _start
+	@echo "✓ $(TARGET)"
+clean:
+	@rm -f *.o $(TARGET)
+run:all
+	@./$(TARGET)
+.PHONY:all clean run

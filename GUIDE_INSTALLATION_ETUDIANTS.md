@@ -57,8 +57,8 @@ sudo apt install -y gcc-arm-linux-gnueabihf \
 
 ```bash
 cd ~
-git clone https://github.com/fr13290/rpi4-arm32-student.git
-cd rpi4-arm32-student
+git clone https://github.com/fr13290/rpi4-arm32-etud.git
+cd rpi4-arm32-etud
 ```
 
 ## 5. VSCode sur PC
@@ -94,7 +94,7 @@ SSHEOF
 
 1. VSCode → `Ctrl+Shift+P` → "Remote-SSH: Connect"
 2. Sélectionner `rpi4`
-3. `File` → `Open Folder` → `/home/pi/rpi4-arm32-student`
+3. `File` → `Open Folder` → `/home/pi/rpi4-arm32-etud`
 
 ## 7. Test hello.s
 

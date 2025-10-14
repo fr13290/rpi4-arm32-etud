@@ -1,4 +1,4 @@
-include $(shell pwd | grep -oP '.*Dev_RPI4_Etu')/tools/Makefile.master
+include $(shell pwd | grep -oP '.*rpi4-arm32-etud')/tools/Makefile.master
 MAIN_SOURCE:=$(shell grep -l '_start' *.s 2>/dev/null | head -1)
 ASM_SOURCES=$(wildcard *.s)
 C_SOURCES=$(wildcard *.c)
