@@ -1,160 +1,145 @@
-# Guide VSCode - Développement ARM32
+# Guide d'utilisation de VSCode
 
-## 🎯 Raccourcis clavier essentiels
+Ce document décrit les fonctionnalités de développement disponibles dans l'environnement VSCode pour la programmation ARM32 sur Raspberry Pi.
+
+## Raccourcis clavier
 
 ### Compilation
-- **`Ctrl+Shift+B`** : Compiler le projet courant (Build)
-- **`Ctrl+Shift+P`** → "Run Task" → "Clean" : Nettoyer les fichiers objets
-- **`Ctrl+Shift+P`** → "Run Task" → "Build & Run" : Compiler et exécuter
-- **`Ctrl+Shift+P`** → "Run Task" → "Clean & Build" : Nettoyer et recompiler
+- `Ctrl+Shift+B` : Compiler le projet actuel
+- `Ctrl+Shift+P` puis "Run Task" → "Clean" : Nettoyer les fichiers générés
+- `Ctrl+Shift+P` puis "Run Task" → "Build & Run" : Compiler et exécuter
+- `Ctrl+Shift+P` puis "Run Task" → "Clean & Build" : Nettoyer puis recompiler
 
 ### Débogage
-- **`F5`** : Lancer le débogage (compile automatiquement avant)
-- **`F10`** : Exécuter l'instruction suivante (Step Over)
-- **`F11`** : Entrer dans une fonction (Step Into)
-- **`Shift+F11`** : Sortir d'une fonction (Step Out)
-- **`F9`** : Placer/Retirer un point d'arrêt
-- **`Shift+F5`** : Arrêter le débogage
+- `F5` : Démarrer le débogage
+- `F10` : Exécuter l'instruction suivante
+- `F11` : Entrer dans une fonction
+- `Shift+F11` : Sortir d'une fonction
+- `F9` : Placer ou retirer un point d'arrêt
+- `Shift+F5` : Arrêter le débogage
 
 ### Navigation
-- **`Ctrl+P`** : Recherche rapide de fichiers
-- **`Ctrl+Shift+F`** : Rechercher dans tous les fichiers
-- **`Ctrl+\``** : Ouvrir/Fermer le terminal intégré
+- `Ctrl+P` : Recherche rapide de fichiers
+- `Ctrl+Shift+F` : Recherche dans tous les fichiers
+- `Ctrl+\`` : Ouvrir/Fermer le terminal intégré
 
-## 📋 Tâches disponibles
+## Tâches de build
 
-Accès : Menu **Terminal** → **Run Task** ou `Ctrl+Shift+P` → "Tasks: Run Task"
+Les tâches sont accessibles via le menu **Terminal** → **Run Task** ou `Ctrl+Shift+P` puis "Tasks: Run Task".
 
-### 1. Build (par défaut)
-Compile le projet dans le répertoire courant
-```bash
-make all
-```
+### Build
+Compile le projet dans le répertoire courant. Cette tâche est définie comme tâche par défaut et s'exécute avec `Ctrl+Shift+B`.
 
-### 2. Clean
-Nettoie tous les fichiers générés (.o et exécutables)
-```bash
-make clean
-```
+### Clean
+Supprime tous les fichiers générés (fichiers objets .o et exécutables).
 
-### 3. Build & Run
-Compile et exécute immédiatement le programme
-```bash
-make run
-```
+### Build & Run
+Compile le projet puis exécute immédiatement le programme généré.
 
-### 4. Clean & Build
-Nettoie complètement puis recompile (utile après modifications importantes)
-```bash
-make clean && make all
-```
+### Clean & Build
+Nettoie complètement le projet puis le recompile. Cette tâche est utile après des modifications importantes du code.
 
-## 🐛 Configurations de debug
+## Configurations de débogage
 
-Accès : Menu **Run** → **Start Debugging** ou `F5`
+Deux configurations sont disponibles via le menu **Run** → **Start Debugging** ou `F5`.
 
-### Debug ARM32 (recommandé)
-- Compile automatiquement avant de lancer le débogueur
-- S'arrête au point d'entrée (`_start`)
-- Affiche les registres en hexadécimal
+### Debug ARM32
+Configuration par défaut qui :
+- Compile automatiquement le projet avant de lancer le débogueur
+- Arrête l'exécution au point d'entrée (_start)
+- Affiche les valeurs des registres en hexadécimal
 
 ### Debug ARM32 (no build)
-- Lance le débogueur sans recompiler
-- Utile pour déboguer rapidement après une première compilation
-- Plus rapide si le code n'a pas changé
+Configuration alternative qui lance le débogueur sans recompiler. Utile lorsque le code n'a pas été modifié depuis la dernière compilation.
 
-## 📁 Organisation du workspace
+## Organisation du workspace
 
 ```
 rpi4-arm32-etud/
-├── .vscode/              # Configuration VSCode
-│   ├── tasks.json        # Tâches de build
-│   ├── launch.json       # Configurations debug
-│   └── settings.json     # Paramètres du projet
-├── projects/             # Vos projets
+├── .vscode/              Configuration VSCode
+│   ├── tasks.json        Définition des tâches de build
+│   ├── launch.json       Configurations de débogage
+│   └── settings.json     Paramètres du projet
+├── projects/             Répertoire des projets
 │   ├── 01_hello/
 │   ├── 02_addition/
 │   └── ...
 ├── tools/
-│   └── Makefile.master   # Makefile commun
+│   ├── Makefile.master   Makefile principal partagé
+│   └── Makefile.project  Template pour nouveaux projets
 └── lib/
-    └── gpio/             # Bibliothèque GPIO
+    └── gpio/             Bibliothèque GPIO
 ```
 
-## 💡 Conseils d'utilisation
+## Procédures de travail
 
-### Pour compiler un projet
-1. Ouvrir un fichier `.s` dans le projet
-2. Appuyer sur `Ctrl+Shift+B`
-3. Le binaire est créé dans le même dossier
+### Compiler un projet
+1. Ouvrir un fichier source (.s ou .c) dans le projet à compiler
+2. Appuyer sur `Ctrl+Shift+B` ou utiliser le menu Terminal → Run Build Task
+3. Le fichier exécutable est généré dans le même répertoire
 
-### Pour déboguer
-1. Ouvrir le fichier principal (celui avec `_start`)
-2. Placer des points d'arrêt avec `F9`
-3. Appuyer sur `F5` pour lancer le debug
-4. Utiliser `F10` pour avancer pas à pas
+### Déboguer un programme
+1. Ouvrir le fichier source principal (celui contenant le point d'entrée _start)
+2. Placer des points d'arrêt si nécessaire avec `F9`
+3. Appuyer sur `F5` pour démarrer le débogage
+4. Utiliser `F10` pour avancer instruction par instruction
 
-### Visualiser les registres
-Pendant le débogage :
-- Ouvrir **Debug Console** (bas de l'écran)
-- Les registres s'affichent automatiquement
-- Format hexadécimal par défaut
+### Visualisation pendant le débogage
+Le panneau **Debug Console** en bas de l'écran affiche :
+- Les valeurs des registres (format hexadécimal)
+- Les sorties du programme
+- Les commandes GDB disponibles
 
-### Terminal intégré
-- Ouvrir avec ``Ctrl+` ``
-- Utiliser les commandes make directement :
-  ```bash
-  make all
-  make run
-  make clean
-  ```
+### Utilisation du terminal intégré
+Le terminal intégré (``Ctrl+` ``) permet d'exécuter directement les commandes make :
+```bash
+make all    # Compiler
+make run    # Compiler et exécuter
+make clean  # Nettoyer
+```
 
-## 🔧 Personnalisation
+## Paramètres du projet
 
-### Modifier les tâches
-Éditer `.vscode/tasks.json` pour ajouter vos propres commandes
+### Masquage des fichiers
+Les fichiers objets (.o) sont automatiquement masqués dans l'explorateur de fichiers pour améliorer la lisibilité.
 
-### Changer les raccourcis
-`Ctrl+K Ctrl+S` → **Keyboard Shortcuts**
+### Guides visuels
+Des lignes verticales à 80 et 100 caractères aident à maintenir une largeur de code raisonnable.
 
-### Thèmes et apparence
-`Ctrl+K Ctrl+T` → Choisir un thème
+### Association de fichiers
+Les fichiers .s sont automatiquement reconnus comme du code ARM Assembly.
 
-## 🆘 Dépannage
+## Dépannage
 
-### "make: command not found"
+### Commande make introuvable
+Installer les outils de build :
 ```bash
 sudo apt install make
 ```
 
-### "arm-linux-gnueabihf-gcc: command not found"
+### Compilateur ARM introuvable
+Installer la chaîne de compilation croisée :
 ```bash
 sudo apt install gcc-arm-linux-gnueabihf
 ```
 
-### Le debug ne fonctionne pas
-Vérifier que `gdb-multiarch` est installé :
+### Débogueur non fonctionnel
+Installer le débogueur multi-architecture :
 ```bash
 sudo apt install gdb-multiarch
 ```
 
-### Les fichiers .o apparaissent dans l'explorateur
-Ils sont normalement masqués. Si ce n'est pas le cas :
-1. Ouvrir `.vscode/settings.json`
-2. Vérifier la présence de :
-   ```json
-   "files.exclude": {
-     "**/*.o": true
-   }
-   ```
+### Fichiers .o visibles dans l'explorateur
+Vérifier que le fichier `.vscode/settings.json` contient :
+```json
+"files.exclude": {
+  "**/*.o": true
+}
+```
 
-## 📚 Ressources
+## Ressources complémentaires
 
-- [Documentation ARM Assembly](docs/ARM32_REFERENCE.md)
-- [API GPIO](docs/GPIO_API.md)
-- [Quick Start](docs/QUICKSTART.md)
-- [Guide installation](GUIDE_INSTALLATION_ETUDIANTS.md)
-
----
-
-**Questions ?** Consultez d'abord ce guide et la documentation dans `docs/`
+- Documentation ARM Assembly : `docs/ARM32_REFERENCE.md`
+- API GPIO : `docs/GPIO_API.md`
+- Démarrage rapide : `docs/QUICKSTART.md`
+- Guide d'installation : `GUIDE_INSTALLATION_ETUDIANTS.md`
