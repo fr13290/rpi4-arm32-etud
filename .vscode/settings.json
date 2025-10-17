@@ -9,31 +9,5 @@
   "editor.rulers": [80, 100],
   "editor.minimap.enabled": true,
   "terminal.integrated.defaultProfile.linux": "bash",
-  "C_Cpp.intelliSenseEngine": "disabled",
-  
-  // Configuration Makefile Tools
-  "makefile.extensionOutputFolder": "./.vscode",
-  "makefile.loggingLevel": "Normal",
-  "makefile.buildLog": "${workspaceFolder}/.vscode/makefile.build.log",
-  "makefile.configurations": [
-    {
-      "name": "Default",
-      "makeDirectory": "${fileDirname}",
-      "makeArgs": [],
-      "problemMatchers": ["$gcc"]
-    }
-  ],
-  "makefile.defaultLaunchConfiguration": {
-    "cwd": "${fileDirname}",
-    "binaryPath": "${fileDirname}/${fileBasenameNoExtension}",
-    "binaryArgs": []
-  },
-  "makefile.panel.visibility": {
-    "debug": true,
-    "problems": true,
-    "output": true
-  },
-  "makefile.alwaysPreConfigure": false,
-  "makefile.configureOnOpen": false,
-  "makefile.phony": ["all", "clean", "run"]
+  "C_Cpp.intelliSenseEngine": "disabled"
 }
