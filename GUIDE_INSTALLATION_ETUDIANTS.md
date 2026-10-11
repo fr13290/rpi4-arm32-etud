@@ -27,21 +27,48 @@ Dans Raspberry Pi Imager (version 2.x) :
 La partition `bootfs` est encore montée sur votre PC (par exemple `/media/VOTRE_USER/bootfs/`, repérez-la avec `lsblk`).
 Éditer `cmdline.txt` et ajouter à la **fin de l'unique ligne** (sans retour à la ligne) :
 
-- Salle TP : `ip=10.101.40.XXX::10.101.0.254:255.255.0.0:rpi4-etudiant:eth0:off`
-- Salle RT1 : `ip=10.96.26.1XX::10.96.26.254:255.255.255.0:rpi4-etudiant:eth0:off`
+```
+ip=10.96.26.N::10.96.26.254:255.255.255.0:rpi4-etudiant:eth0:off:10.100.1.53:10.100.1.54
+```
 
-Remplacer XXX / XX par le numéro de votre poste. Puis `sync` et démonter les deux partitions avant de retirer la carte.
+Remplacer **N par l'adresse attribuée à votre poste (entre 100 et 199)** : une adresse par poste.
+
+| Paramètre | Valeur |
+|---|---|
+| Adresse IP | `10.96.26.N` (N entre 100 et 199) |
+| Masque | `255.255.255.0` |
+| Passerelle | `10.96.26.254` |
+| DNS | `10.100.1.53` ou `10.100.1.54` |
+
+Puis `sync` et démonter les deux partitions avant de retirer la carte.
 
 ## 3. Premier démarrage
 
 Insérer la carte, brancher Ethernet puis l'alimentation, attendre 30 à 60 secondes, puis :
 
 ```bash
-ping -c 4 10.101.40.XXX
-ssh pi@10.101.40.XXX
+ping -c 4 10.96.26.N
+ssh pi@10.96.26.N
 ```
 
 ## 4. Installer les outils (sur le Raspberry Pi)
+
+Vérifier d'abord que les noms de domaine sont résolus :
+
+```bash
+ping -c 2 deb.debian.org
+```
+
+Si le message est `Temporary failure in name resolution`, le DNS n'est pas pris en compte.
+Relever le nom de la connexion réseau, puis lui indiquer les serveurs DNS :
+
+```bash
+nmcli -t -f NAME,DEVICE connection show
+sudo nmcli connection modify "NOM_AFFICHE" ipv4.dns "10.100.1.53 10.100.1.54"
+sudo nmcli connection up "NOM_AFFICHE"
+```
+
+Puis installer les outils :
 
 ```bash
 sudo apt update && sudo apt upgrade -y
@@ -84,7 +111,7 @@ Installer l'extension **Remote - SSH**, puis ajouter dans `~/.ssh/config` :
 
 ```
 Host rpi4-dev
-    HostName 10.101.40.XXX
+    HostName 10.96.26.N
     User pi
     ServerAliveInterval 60
 ```
