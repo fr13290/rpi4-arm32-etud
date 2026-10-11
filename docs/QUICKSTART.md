@@ -1,18 +1,40 @@
 # Démarrage rapide
 
 ## Compiler un projet
-\`\`\`bash
+
+```bash
 cd projects/01_hello
-make all
-\`\`\`
+make
+```
 
 ## Exécuter
-\`\`\`bash
-make run          # Programmes basics
-sudo make run     # Programmes GPIO
-\`\`\`
+
+```bash
+make run      # compile puis exécute
+./hello       # ou exécution directe
+```
+
+Les programmes GPIO (TP04 à TP06) s'exécutent **sans sudo** : l'utilisateur pi appartient au groupe gpio.
+
+## Nettoyer
+
+```bash
+make clean
+```
 
 ## Déboguer (VSCode)
-1. Ouvrir le fichier .s
-2. F5 pour lancer
-3. F10 pour avancer ligne par ligne
+
+1. Ouvrir le fichier .s du TP
+2. F5 : compile, lance le programme et s'arrête sur `_start`
+3. F10 : instruction suivante
+
+## Déboguer en ligne de commande
+
+```bash
+gdb-multiarch ./hello
+(gdb) break _start
+(gdb) run
+(gdb) stepi            # une instruction
+(gdb) info registers   # tous les registres
+(gdb) x/dw &result     # un mot mémoire
+```

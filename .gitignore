@@ -1,6 +1,8 @@
+# Fichiers générés par la compilation
 *.o
-!projects/**/*.s
-!projects/**/Makefile
-!examples/**/*.s
-projects/**/*
-examples/**/*
+
+# Dans projects/ : seuls les sources (.s) et les Makefile sont versionnés,
+# pas les exécutables (fichiers sans extension)
+projects/*/*
+!projects/*/*.s
+!projects/*/Makefile

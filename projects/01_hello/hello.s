@@ -1,11 +1,20 @@
-// TP1: Afficher "Hello ARM32"
+// @ARCH: arm32
+// @VERSION: pedagogique
+// hello.s - Premier programme ARM32
+// TP : Afficher "Hello from ARM32!" à l'écran
+
+.section .data
+msg:
+    .ascii "Hello from ARM32!\n"
+    .equ msg_len, . - msg
+
+.section .text
 .global _start
-.data
-msg: .ascii "Hello ARM32\n"
-.text
+
 _start:
-    // TODO: Afficher le message avec syscall write (r7=#4)
-    // r0 = 1 (stdout), r1 = adresse msg, r2 = longueur (12)
-    
-    // TODO: Terminer avec syscall exit (r7=#1)
-    // r0 = 0 (code retour)
+    // TODO: Utiliser le syscall write (n°4) pour afficher msg sur stdout
+    // Arguments : r0 = fd (1 pour stdout), r1 = adresse buffer, r2 = longueur
+    // N'oubliez pas de mettre le numéro syscall dans r7
+
+    // TODO: Utiliser le syscall exit (n°1) pour terminer proprement
+    // Argument : r0 = code retour (0 = succès)

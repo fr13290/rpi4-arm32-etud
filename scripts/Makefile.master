@@ -1,0 +1,73 @@
+# ============================================================
+# Makefile maître - TP ARM32 (Raspberry Pi 3B+ / 4)
+# Raspberry Pi OS Bookworm 64 bits + chaîne croisée armhf
+#
+# Chaque projet a un Makefile de deux lignes :
+#     include ../../scripts/Makefile.master
+# Commandes : make | make run | make clean
+# ============================================================
+
+# Racine du dépôt, déduite de la position de CE fichier
+# (ne dépend donc pas du nom du dossier de clonage)
+ROOT     := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
+LIB_GPIO := $(ROOT)/lib/gpio
+
+# Chaîne de compilation croisée ARM32 (armhf)
+PREFIX  ?= arm-linux-gnueabihf-
+AS      := $(PREFIX)as
+LD      := $(PREFIX)ld
+CC      := $(PREFIX)gcc
+ASFLAGS := -march=armv7-a+fp -mfloat-abi=hard -g
+CFLAGS  := -march=armv7-a+fp -mfloat-abi=hard -Wall -O2 -g
+
+# Sources du projet : tous les .s du dossier, le point entrée contient _start
+SRC_S := $(wildcard *.s)
+ifeq ($(SRC_S),)
+$(error Aucun fichier .s ici : lancez make depuis le dossier du TP)
+endif
+MAIN := $(firstword $(shell grep -l "_start" $(SRC_S)))
+ifeq ($(MAIN),)
+$(error Aucun fichier .s ne contient _start)
+endif
+TARGET := $(basename $(MAIN))
+OBJS   := $(SRC_S:.s=.o)
+
+# Le programme utilise-t-il la bibliothèque GPIO ? (appel à *_gpio ou @REQUIRES: gpio.c)
+USES_GPIO := $(shell grep -lE "(init|set|clear|get|write|read|clean)_gpio|@REQUIRES:.*gpio" $(SRC_S))
+
+ifeq ($(USES_GPIO),)
+# Programme noyau seul (appels système uniquement) : exécutable statique
+LDFLAGS  := -z noexecstack
+LIBS     :=
+LIB_OBJS :=
+else
+# Programme GPIO : libc + libgpiod 32 bits + bibliothèque du dépôt (lib/gpio)
+LDFLAGS  := -z noexecstack -dynamic-linker /lib/ld-linux-armhf.so.3 -L/usr/lib/arm-linux-gnueabihf
+LIBS     := -lc -lgpiod
+LIB_OBJS := $(LIB_GPIO)/gpio.o $(LIB_GPIO)/gpio_func.o
+endif
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS) $(LIB_OBJS)
+	$(LD) -o $@ $^ $(LDFLAGS) $(LIBS) -e _start
+
+%.o: %.s
+	$(AS) $(ASFLAGS) $< -o $@
+
+$(LIB_GPIO)/gpio.o: $(LIB_GPIO)/gpio.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(LIB_GPIO)/gpio_func.o: $(LIB_GPIO)/gpio_func.s
+	$(AS) $(ASFLAGS) $< -o $@
+
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -f *.o $(TARGET)
+
+distclean: clean
+	rm -f $(LIB_GPIO)/*.o
+
+.PHONY: all run clean distclean
