@@ -1,24 +1,24 @@
-// TP3: Calculer factorielle de 5
-.global _start
-.data
+// @ARCH: arm32
+// facto.s - Calcul de factorielle
+
+.section .data
 n: .word 5
 result: .word 0
-.text
+
+.section .text
+.global _start
+
 _start:
     // TODO: Charger n dans r0
-    
-    // TODO: Initialiser r1 = 1 (résultat)
-    
-    // TODO: Boucle: r1 = r1 * r0, puis r0 = r0 - 1
-    // Continuer tant que r0 > 0
-    
+
+    // TODO: Initialiser r1 = 1 (accumulateur du résultat)
+
 loop:
-    // TODO: Multiplier
-    // TODO: Décrémenter
-    // TODO: Tester si fini
-    
-    // TODO: Sauvegarder résultat
-    
-    mov r0, #0
-    mov r7, #1
-    svc #0
+    // TODO: Créer une boucle qui :
+    // - Multiplie r1 par r0 (résultat dans r1)
+    // - Décrémente r0
+    // - Continue tant que r0 > 0
+
+    // TODO: Sauvegarder r1 dans result
+
+    // TODO: Sortir

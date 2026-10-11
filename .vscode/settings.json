@@ -5,9 +5,6 @@
   "files.exclude": {
     "**/*.o": true
   },
-  "editor.formatOnSave": false,
   "editor.rulers": [80, 100],
-  "editor.minimap.enabled": true,
-  "terminal.integrated.defaultProfile.linux": "bash",
-  "C_Cpp.intelliSenseEngine": "disabled"
+  "terminal.integrated.defaultProfile.linux": "bash"
 }

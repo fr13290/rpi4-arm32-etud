@@ -9,13 +9,8 @@
       "cwd": "${fileDirname}",
       "gdbpath": "gdb-multiarch",
       "preLaunchTask": "Build",
-      "autorun": [
-        "set output-radix 16"
-      ],
-      "stopAtEntry": true,
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb-multiarch"
+      "autorun": ["set output-radix 16"],
+      "stopAtEntry": "_start"
     },
     {
       "name": "Debug ARM32 (no build)",
@@ -24,13 +19,8 @@
       "target": "${fileDirname}/${fileBasenameNoExtension}",
       "cwd": "${fileDirname}",
       "gdbpath": "gdb-multiarch",
-      "autorun": [
-        "set output-radix 16"
-      ],
-      "stopAtEntry": true,
-      "externalConsole": false,
-      "MIMode": "gdb",
-      "miDebuggerPath": "gdb-multiarch"
+      "autorun": ["set output-radix 16"],
+      "stopAtEntry": "_start"
     }
   ]
 }
