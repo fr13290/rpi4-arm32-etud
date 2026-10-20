@@ -105,9 +105,15 @@ sudo apt update && sudo apt install code
 brew install --cask visual-studio-code
 ```
 
-### Extension Remote - SSH et configuration
+### Extension Remote - SSH, profil `TP-Dev` et configuration
 
-Installer l'extension **Remote - SSH**, puis ajouter dans `~/.ssh/config` :
+1. Installer l'extension **Remote - SSH**.
+2. Télécharger le profil (sans cloner le dépôt sur le PC) :
+   https://github.com/fr13290/rpi4-arm32-etud/blob/main/.vscode/profiles/TP-Dev.code-profile
+   puis bouton **Download raw file**.
+3. Dans VSCode : `F1` → **Profiles: Import Profile…** → **Select File** → `TP-Dev.code-profile` → **Create**.
+   Vérifier que le profil actif est **TP-Dev** (engrenage en bas à gauche).
+4. Ajouter dans `~/.ssh/config` :
 
 ```
 Host rpi4-dev
@@ -120,7 +126,14 @@ Host rpi4-dev
 
 1. `F1` (ou `Cmd+Shift+P`) puis **Remote-SSH: Connect to Host** puis `rpi4-dev`
 2. **File → Open Folder** puis `/home/pi/rpi4-arm32-etud`
-3. Accepter l'installation des extensions recommandées (ARM Assembly, Native Debug...)
+3. Installer les extensions **côté Raspberry Pi** (VSCode ne les copie pas depuis le PC) :
+   onglet Extensions (`Ctrl+Shift+X`), section **SSH: rpi4-dev** → **Install** sur **Native Debug**
+   (`webfreak.debug`) et **Arm Assembly** (`dan-c-underwood.arm`).
+4. `F1` → **Developer: Reload Window**, puis vérifier que Native Debug est listé dans « SSH: rpi4-dev ».
+
+> Si VSCode affiche « Configured debug type 'gdb' is not supported » avec un bouton
+> « Install gdb Extension » : ne pas cliquer, installer Native Debug (étape 3).
+> Contrôle sur le Pi : `ls ~/.vscode-server/extensions | grep -i webfreak`
 
 ## 8. Vérifier la chaîne de compilation
 
